@@ -1,0 +1,66 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Highlight Sentence</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+  mark {
+    background-color: #ffcc80;
+    padding: 0.1em;
+      }
+</style>
+</head>
+<body>
+    <div class="container mt-5">
+        <form method="POST" id="highlight-form" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <h1><label for="paragraph">Paragraph:</label></h1>
+                <textarea class="form-control" id="paragraph" name="paragraph" rows="5" cols="10">{{ userpara|default:""}}</textarea>
+            </div>
+            <div class="form-group">
+               <h1> <label for="response">Response:</label></h1>
+                <textarea class="form-control" id="response" name="response" rows="5" cols="15">{{ resp|default:'' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        {% if response %}
+            <h3 class="mt-5">Your Input:</h3>
+            <p>{{ response|safe }}</p>
+        {% endif %}
+
+<!--        {% if paragraph %}-->
+<!--            <h3 class="mt-5">Highlighted Paragraph:</h3>-->
+<!--            <p>{{ paragraph|safe }}</p>-->
+<!--        {% endif %}-->
+        {% if paragraph %}
+<div class="card mt-5">
+    <div class="card-body">
+        <h3 class="card-title">Highlighted Paragraph:</h3>
+        <p class="card-text">{{ paragraph|safe }}</p>
+    </div>
+</div>
+{% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        document.querySelector('#highlight-form').addEventListener('submit', function(event) {
+            var paragraph = document.querySelector('#paragraph').value.trim();
+            var response = document.querySelector('#response').value.trim();
+
+            if (!paragraph || !response) {
+                alert('Please enter values for both the paragraph and response fields.');
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
